@@ -1,0 +1,113 @@
+:root {
+    --white-color: #FFFFFF;
+    --border-color: #D1D5DB;
+    --select-color: #111827;
+    --button-color: #374151;
+    --body-background: #1C1C1C;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--body-background);
+}
+
+body,
+select,
+button {
+    font-family: "Inter", sans-serif;
+}
+
+/* Typography styling - Start */
+
+.get-color-btn,
+.hex-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Typography styling - End */
+
+/* Container styling - Start */
+
+.container {
+    max-width: 550px;
+    margin: 0 auto;
+    background-color: var(--white-color);
+    padding-top: 1px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+    margin: 1em;
+}
+
+.color-container {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.color-container:hover {
+    transform: scale(1.05);
+    transition: 250ms;
+}
+
+/* Container styling - End */
+
+/* Header styling - Start */
+
+.color-picker {
+    border: 0.5px solid var(--border-color);
+    height: inherit;
+}
+
+.color-modes {
+    text-transform: capitalize;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0 1em;
+    width: 60%;
+    border: 1px solid var(--border-color);
+    color: var(--select-color);
+    background-color: var(--white-color);
+    background-image: url('./images/angle-down-solid.svg');
+    background-repeat: no-repeat, repeat;
+    background-position: right 10px top 50%, 0 0;
+    background-size: 1em;
+}
+
+.get-color-btn {
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    color: var(--button-color);
+    border-radius: 4px;
+    padding: 1em;
+}
+
+/* Header styling - End */
+
+/* Color pallette - Start */
+
+.color-pallete {
+    display: flex;
+    width: 100%;
+    height: 400px;
+}
+
+.color {
+    height: 90%;
+}
+
+.hex-label {
+    margin: auto auto;
+}
+
+/* Color pallette - End */
