@@ -5,18 +5,21 @@ const colorModes = ["monochrome","monochrome-dark","monochrome-light","analogic"
 
 getColorBtn.addEventListener("click", callColorApi);
 
-function callColorApi() {
+async function callColorApi() {
 
     // Need to remove the # for the api
     const color = document.getElementById("color-input").value.substring(1);
     const mode = colorModesEl.value;
 
-    fetch(`https://www.thecolorapi.com/scheme?hex=${color}&format=json&mode=${mode}&count=5`)
-      .then(res => res.json())
-      .then(data => renderColors(data.colors));
+    const res = await fetch(`https://www.thecolorapi.com/scheme?hex=${color}&format=json&mode=${mode}&count=5`);
+    const data = await res.json();
+
+    renderColors(data.colors);
 };
 
 function renderColors(colorArr) {
+
+    const templateEl = document.getElementById("color-template");
   
     colorPalletteEl.innerHTML = "";
 
@@ -24,14 +27,28 @@ function renderColors(colorArr) {
 
         const { hex: { value } } = color;
 
-        colorPalletteEl.innerHTML += `
-              <div class="color-container">
-                  <div class="color" id="${value}"></div>
-                  <div class="hex-label">${value}</div>
-              </div>
-        `;
+        // Clone the template so we can add it to the dom
+        let clonedTemplate = templateEl.content.cloneNode(true);
+
+        clonedTemplate.querySelector(".color").id = value;
+        clonedTemplate.querySelector(".hex-label").textContent = value;
+        clonedTemplate.querySelector(".tooltiptext").id = `my-tooltip-${value}`;
+
+        colorPalletteEl.appendChild(clonedTemplate);
 
         document.getElementById(value).style.backgroundColor = value;
+
+        // Create a click event on every color item
+        document.getElementById(value).addEventListener("click", (e) => {
+            copyToClipboard(e.target.id);
+
+            document.getElementById(`my-tooltip-${value}`).textContent = "Copied";
+        });
+
+        // When the user moves off the color item then reset the text incase it changed
+        document.getElementById(value).addEventListener("mouseout", () => {
+            document.getElementById(`my-tooltip-${value}`).textContent = "Copy to clipboard";
+        });
     });
 };
 
@@ -39,11 +56,20 @@ function populateColorModes() {
 
     colorModes.forEach((mode) => {
 
-        colorModesEl.innerHTML += `
-            <option id="${mode}" data-content="<i class='fa-solid fa-check' aria-hidden='true'></i>">${mode}</option>
-        `;
+        const option = document.createElement("option");
+        option.id = mode;
+        option.textContent = mode;
+
+        colorModesEl.appendChild(option);
     });
 
 };
+
+/* This works in chrome but doesn't appear to work in the mini browser */
+function copyToClipboard(copyText) {
+
+    navigator.clipboard.writeText(copyText);
+
+}
 
 populateColorModes();

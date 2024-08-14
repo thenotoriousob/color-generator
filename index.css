@@ -22,6 +22,19 @@ button {
     font-family: "Inter", sans-serif;
 }
 
+.color-picker,
+.color-modes,
+.get-color-btn,
+.color {
+    cursor: pointer;
+}
+
+.get-color-btn:hover,
+.color-modes:hover,
+.color-picker:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 /* Typography styling - Start */
 
 .get-color-btn,
@@ -52,11 +65,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 20%;
-}
-
-.color-container:hover {
-    transform: scale(1.05);
-    transition: 250ms;
+    position: relative;
 }
 
 /* Container styling - End */
@@ -106,8 +115,51 @@ button {
     height: 90%;
 }
 
+.color:hover {
+    transform: scale(1.05);
+    transition: 250ms;
+}
+
 .hex-label {
     margin: auto auto;
 }
 
 /* Color pallette - End */
+
+/* Tooltip styles - Start */
+
+.tooltiptext {
+    visibility: hidden;
+    width: 80px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: 40%;
+    left: 50%;
+    margin-left: -40px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.color:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Tooltip styles - End */
