@@ -30,8 +30,11 @@ button {
 }
 
 .get-color-btn:hover,
+.get-color-btn:focus,
 .color-modes:hover,
-.color-picker:hover {
+.color-modes:focus,
+.color-picker:hover,
+.color-picker:focus {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
@@ -115,7 +118,8 @@ button {
     height: 90%;
 }
 
-.color:hover {
+.color:hover,
+.color:focus {
     transform: scale(1.05);
     transition: 250ms;
 }
@@ -157,7 +161,8 @@ button {
     border-color: #555 transparent transparent transparent;
 }
 
-.color:hover .tooltiptext {
+.color:hover .tooltiptext,
+.color:focus .tooltiptext {
     visibility: visible;
     opacity: 1;
 }
