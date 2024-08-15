@@ -37,8 +37,8 @@ function renderColors(colorArr) {
         const { hex: { value } } = color;
 
         const colorItemHTML = `
-        <div class="color-container">
-            <div class="color" id="${value}" data-color="${value}" style="background-color: ${value}" tabindex="0">
+        <div class="color-container" data-color="${value}">
+            <div class="color" id="${value}" style="background-color: ${value}" tabindex="0">
                 <span class="tooltiptext" id="my-tooltip-${value}">Copy to clipboard</span>
             </div>
             <div class="hex-label">${value}</div>
@@ -75,7 +75,7 @@ function setUpEvenListeners() {
             copyToClipboard(e.target.dataset.color);
         };
     });
-}
+};
 
 function resetTooltipText(e) {
     if (e.target.dataset.color) {
