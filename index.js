@@ -37,10 +37,12 @@ function renderColors(colorArr) {
         const { hex: { value } } = color;
 
         const colorItemHTML = `
-        <div class="color-container" data-color="${value}">
-            <div class="color" id="${value}" style="background-color: ${value}" tabindex="0">
-                <span class="tooltiptext" id="my-tooltip-${value}">Copy to clipboard</span>
+        <div class="color-container" data-color="${value}" tabindex="0">
+            <span class="tooltiptext" id="my-tooltip-${value}">Copy to clipboard</span>
+            <div class="color" id="${value}" style="background-color: ${value}">
+                
             </div>
+            
             <div class="hex-label">${value}</div>
         </div>
         `;
@@ -54,33 +56,44 @@ function renderColors(colorArr) {
 
 function setUpEvenListeners() {
 
-    colorPalletteEl.addEventListener("click", (e) => {
-        if (e.target.dataset.color) {
+    addGlobalEventListener("click",".color-container", e => copyToClipboard(e.target.dataset.color));
+
+    addGlobalEventListener("keydown",".color-container", e => {
+        if (e.key === "Enter") {
             copyToClipboard(e.target.dataset.color);
         };
     });
 
     // When the user moves off the color item then reset the text incase it changed
-    colorPalletteEl.addEventListener("mouseout", (e) => {
-        resetTooltipText(e);
-    });
+    addGlobalEventListener("mouseout",".color-container", e => resetTooltipText(e));
+
 
     // When the user moves off the color item then reset the text incase it changed
-    colorPalletteEl.addEventListener("focusout", (e) => {
-        resetTooltipText(e);
-    });
+    addGlobalEventListener("focusout",".color-container", e => resetTooltipText(e));
 
-    colorPalletteEl.addEventListener("keydown", (e) => {
-        if (e.target.dataset.color && e.key === "Enter") {
-            copyToClipboard(e.target.dataset.color);
-        };
-    });
 };
 
+function addGlobalEventListener(type, selector, callback) {
+
+    colorPalletteEl.addEventListener(type, e => {
+
+        if (e.target.matches(selector)) {
+            callback(e);
+        };
+    });
+
+}
+
 function resetTooltipText(e) {
-    if (e.target.dataset.color) {
-        document.getElementById(`my-tooltip-${e.target.dataset.color}`).textContent = "Copy to clipboard";
-    };
+
+    const myTooltipEl = document.getElementById(`my-tooltip-${e.target.dataset.color}`);
+
+    myTooltipEl.textContent = "Copy to clipboard";
+    /* Need to remove focus from the container so the tooltip goes away,
+    it needs the on focus css for keyboard users, but this causes an issue
+    with it not hiding for mouse users */
+    e.target.blur();
+
 };
 
 function populateColorModes() {
